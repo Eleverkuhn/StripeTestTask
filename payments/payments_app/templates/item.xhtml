@@ -1,0 +1,14 @@
+{% extends "base.xhtml" %}
+
+{% block header_text %}{{ title }}{% endblock %}
+
+{% block content %}
+  <ul>
+    {% if item %}
+      {% for field in item %}
+        <li>{{ field.name }}: {{ field.value }}<li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+  <button id="buy-button">Buy</button
+{% endblock %}
