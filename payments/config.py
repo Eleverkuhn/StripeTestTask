@@ -27,6 +27,8 @@ class Settings(BaseSettings):
     django_port: str
     django_key: str
 
+    stripe_key: str
+
     pythonpath: str
 
     model_config = SettingsConfigDict(env_file=get_env_file())

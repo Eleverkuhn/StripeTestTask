@@ -24,3 +24,12 @@ class TestItemView(TestCase):
             if field.concrete:
                 field_value = getattr(item, field.name)
                 self.assertIn(str(field_value), response.content.decode())
+
+
+class TestBuyView(TestCase):
+    fixtures = ["items"]
+    url = reverse("buy", kwargs={"id": 1})
+
+    def test_output(self) -> None:  # INFO: for debug
+        response = self.client.get(self.url)
+        LoggingConfig().logger.debug(response.content.decode())
