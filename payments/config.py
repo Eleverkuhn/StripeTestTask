@@ -27,7 +27,8 @@ class Settings(BaseSettings):
     django_port: str
     django_key: str
 
-    stripe_key: str
+    stripe_sk: str
+    stripe_pk: str
 
     pythonpath: str
 

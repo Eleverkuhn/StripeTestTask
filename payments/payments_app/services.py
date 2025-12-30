@@ -11,7 +11,7 @@ class BuyService:
 
     def __init__(self, item: Item) -> None:
         self.item = item
-        stripe.api_key = settings.stripe_key
+        stripe.api_key = settings.stripe_sk
         stripe.api_version = "2025-12-15.clover"
 
     @property
