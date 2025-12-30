@@ -1,0 +1,47 @@
+[
+  {
+    "model": "payments_app.item",
+    "pk": 1,
+    "fields": {
+      "name": "Стул",
+      "description": "Деревянный стул для кухни или столовой",
+      "price": "3490.00"
+    }
+  },
+  {
+    "model": "payments_app.item",
+    "pk": 2,
+    "fields": {
+      "name": "Стол",
+      "description": "Обеденный стол из массива дерева",
+      "price": "15990.00"
+    }
+  },
+  {
+    "model": "payments_app.item",
+    "pk": 3,
+    "fields": {
+      "name": "Шкаф",
+      "description": "Вместительный шкаф для одежды с полками",
+      "price": "28990.00"
+    }
+  },
+  {
+    "model": "payments_app.item",
+    "pk": 4,
+    "fields": {
+      "name": "Диван",
+      "description": "Мягкий диван с тканевой обивкой",
+      "price": "45990.00"
+    }
+  },
+  {
+    "model": "payments_app.item",
+    "pk": 5,
+    "fields": {
+      "name": "Комод",
+      "description": "Комод с выдвижными ящиками для хранения",
+      "price": "12990.50"
+    }
+  }
+]
