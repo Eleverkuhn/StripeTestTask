@@ -16,14 +16,34 @@ services:
     networks:
       internal:
 
+  migration:
+    build: .
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: python manage.py migrate
+    networks:
+      internal:
+
+  seed_db:
+    build: .
+    env_file: .env
+    depends_on:
+      migration:
+        condition: service_completed_successfully
+    command: python manage.py loaddata items.json
+    networks:
+      internal:
+
   django:
     build: .
     container_name: django
     env_file:
       - .env
     depends_on:
-      postgres:
-        condition: service_healthy
+      seed_db:
+        condition: service_completed_successfully
     command: python manage.py runserver ${DJANGO_HOST}:${DJANGO_PORT}
     ports:
       - "${DJANGO_PORT}:8000"
