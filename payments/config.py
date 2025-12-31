@@ -34,7 +34,7 @@ class Settings(BaseSettings):
 
     pythonpath: str
 
-    model_config = SettingsConfigDict(env_file=get_env_file())
+    # model_config = SettingsConfigDict(env_file=get_env_file())
 
 
 settings = Settings()
