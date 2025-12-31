@@ -12,5 +12,4 @@ EXPOSE 8000
 
 ENV PYTHONPATH=./payments
 
-RUN python manage.py migrate
-RUN python manage.py loaddata items.json
+ENTRYPOINT ["/entrypoint.sh"]
