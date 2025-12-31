@@ -12,4 +12,4 @@ EXPOSE 8000
 
 ENV PYTHONPATH=./payments
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/seed_db.sh"]
