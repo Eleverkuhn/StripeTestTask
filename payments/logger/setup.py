@@ -16,8 +16,3 @@ class LoggingConfig:
         with open(self.path) as json_config:
             config_file = json.load(json_config)
         return config_file
-
-
-class OnlyInfoFilter(logging.Filter):
-    def filter(self, record):
-        return record.levelno == logging.INFO
