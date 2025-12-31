@@ -32,4 +32,4 @@ class BuyView(View):
     def get(self, request, id: int, *args, **kwargs) -> JsonResponse:
         item = ItemService().get_item(id)
         session = BuyService(item).generate_stripe_session()
-        return JsonResponse({"session_id": session.id})
+        return JsonResponse({"id": session.id})
