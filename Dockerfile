@@ -10,9 +10,8 @@ COPY . .
 
 EXPOSE 8000
 
-ENV PYTHONPATH=./payments
-
 COPY seed_db.sh /seed_db.sh
 RUN chmod +x /seed_db.sh
 
 ENTRYPOINT ["/seed_db.sh"]
+CMD ["gunicorn", "payments.wsgi:application", "--bind", "0.0.0.0:8000"]
