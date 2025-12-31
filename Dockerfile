@@ -12,4 +12,7 @@ EXPOSE 8000
 
 ENV PYTHONPATH=./payments
 
+COPY seed_db.sh /seed_db.sh
+RUN chmod +x /seed_db.sh
+
 ENTRYPOINT ["/seed_db.sh"]
