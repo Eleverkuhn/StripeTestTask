@@ -1,10 +1,12 @@
 import os
-
 from pathlib import Path
 
+from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).parent
+
+load_dotenv()
 
 
 def get_env_file() -> str:
