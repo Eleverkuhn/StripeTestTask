@@ -13,7 +13,7 @@
       "formatter": "general",
       "level": "DEBUG",
       "stream": "ext://sys.stdout"
-    },
+    }
   },
   "loggers": {
     "payments": {
