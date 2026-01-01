@@ -1,4 +1,3 @@
-from decimal import Decimal
 from typing import override
 
 import stripe
@@ -16,6 +15,12 @@ class BaseCheckoutService:
         stripe.api_key = settings.stripe_sk
         stripe.api_version = "2025-12-15.clover"
 
+    def construct_stripe_session(self, line_items: list[dict]) -> Session:
+        return stripe.checkout.Session.create(ui_mode="custom",
+                                              line_items=line_items,
+                                              mode="payment",
+                                              return_url=self.domain)
+
 
 class CheckoutOrderService(BaseCheckoutService):
     @override
@@ -24,45 +29,33 @@ class CheckoutOrderService(BaseCheckoutService):
         self.order = order
 
     def generate_stripe_session(self) -> Session:
-        session = stripe.checkout.Session.create(
-            ui_mode="custom",
-            line_items=self.generate_line_items(),
-            mode="payment",
-            return_url=self.domain
-        )
+        line_items = self.generate_line_items()
+        session = self.construct_stripe_session(line_items)
         return session
 
     def generate_line_items(self) -> list[dict]:
-        return [
-            {"price": BuyService(item).generate_price().id, "quantity": 1}
-            for item
-            in self.order.items.all()
-        ]
+        return [CheckoutItemService(item).construct_line_item()
+                for item
+                in self.order.items.all()]
 
 
-class BuyService:
-    domain = f"http://{settings.django_host}:{settings.django_port}"
-
+class CheckoutItemService(BaseCheckoutService):
+    @override
     def __init__(self, item: Item) -> None:
+        super().__init__()
         self.item = item
-        stripe.api_key = settings.stripe_sk
-        stripe.api_version = "2025-12-15.clover"
 
     @property
     def converted_price(self) -> int:
         return int(self.item.price * 100)
 
     def generate_stripe_session(self) -> Session:
-        price = self.generate_price()
-
-        session = stripe.checkout.Session.create(
-            ui_mode="custom",
-            line_items=[{"price": price.id, "quantity": 1}],
-            mode="payment",
-            return_url=self.domain
-        )
-
+        line_items = [self.construct_line_item()]
+        session = self.construct_stripe_session(line_items)
         return session
+
+    def construct_line_item(self) -> dict[str, str | int]:
+        return {"price": self.generate_price().id, "quantity": 1}
 
     def generate_price(self) -> Price:
         product = stripe.Product.create(name=self.item.name)
