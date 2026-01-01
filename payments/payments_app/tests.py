@@ -1,7 +1,8 @@
+import json
+
 from django.urls import reverse
 from django.test import TestCase
 
-from logger.setup import LoggingConfig
 from payments_app.views import ItemView, OrderView
 from payments_app.models import Item, Order
 
@@ -17,6 +18,15 @@ class BaseTestView:
     def test_template_is_used(self) -> None:
         response = self.client.get(self.url)
         self.assertTemplateUsed(response, self.template)
+
+
+class BaseTestBuyView:
+    url: str
+
+    def test_returns_session_id(self) -> None:
+        response = self.client.get(self.url)
+        content = json.loads(response.content.decode("utf-8"))
+        self.assertTrue(content.get("id"))
 
 
 class TestItemView(TestCase, BaseTestView):
@@ -49,10 +59,11 @@ class TestOrderView(TestCase, BaseTestView):
             self.assertIn(str(item.price), content)
 
 
-class TestBuyView(TestCase):
+class TestBuyItemView(TestCase, BaseTestBuyView):
     fixtures = ["items"]
-    url = reverse("buy", kwargs={"id": 1})
+    url = reverse("buy_item", kwargs={"id": 1})
 
-    def test_output(self) -> None:  # INFO: for debug
-        response = self.client.get(self.url)
-        LoggingConfig().logger.debug(response.content.decode())
+
+class TestBuyOrderView(TestCase, BaseTestBuyView):
+    fixtures = ["items", "orders"]
+    url = reverse("buy_order", kwargs={"id": 1})
