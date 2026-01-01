@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 
 from config import settings
 from payments_app.services import BuyService
-from payments_app.models import Item
+from payments_app.models import Item, Order
 
 
 class ItemView(TemplateView):
@@ -26,6 +26,24 @@ class ItemView(TemplateView):
         context["item"] = {field.verbose_name: getattr(item, field.name)
                            for field
                            in item._meta.fields}
+        return context
+
+
+class OrderView(TemplateView):
+    template_name = "order.xhtml"
+
+    @override
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order = get_object_or_404(Order, id=self.kwargs["id"])
+        return self._generate_context(context, order)
+
+    def _generate_context(self, context: dict, order: Order) -> dict:
+        context["title"] = f"Order {order.id}"
+        context["total_price"] = order.total_price
+        context["order"] = {item.name: item.price
+                            for item
+                            in order.items.all()}
         return context
 
 

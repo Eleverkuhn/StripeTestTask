@@ -1,0 +1,14 @@
+{% extends "base.xhtml" %}
+
+{% block header_text %}{{ title }}{% endblock %}
+
+{% block content %}
+  <ul>
+    {% if order %}
+      {% for key, value in order.items %}
+        <li><b>{{ key }}</b>: {{ value }}</li>
+      {% endfor %}
+      <p>Price: {{ total_price }}</p>
+    {% endif %}
+  </ul>
+{% endblock %}
