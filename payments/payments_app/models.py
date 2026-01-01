@@ -19,3 +19,17 @@ class Item(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name}"
+
+
+class Order(models.Model):
+    items = models.ManyToManyField(Item)
+
+    class Meta:
+        db_table = "orders"
+
+    def __str__(self) -> str:
+        return f"Order {self.id}: {', '.join(item.name for item in self.items.all())}, {self.total_price}"
+
+    @property
+    def total_price(self) -> Decimal:
+        return sum(item.price for item in self.items.all())
