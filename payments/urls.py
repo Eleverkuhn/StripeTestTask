@@ -17,11 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from payments_app.views import ItemView, OrderView, BuyView
+from payments_app.views import ItemView, OrderView, BuyView, BuyOrderView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("item/<int:id>", ItemView.as_view(), name="item"),
     path("order/<int:id>", OrderView.as_view(), name="order"),
-    path("buy/<int:id>", BuyView.as_view(), name="buy")
+    path("buy/<int:id>", BuyView.as_view(), name="buy"),
+    path("buy/order/<int:id>", BuyOrderView.as_view(), name="order")
 ]

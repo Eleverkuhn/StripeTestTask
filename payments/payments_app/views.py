@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404
 
 from config import settings
-from payments_app.services import BuyService
+from payments_app.services import BuyService, CheckoutOrderService
 from payments_app.models import Item, Order
 
 
@@ -39,12 +39,20 @@ class OrderView(TemplateView):
         return self._generate_context(context, order)
 
     def _generate_context(self, context: dict, order: Order) -> dict:
-        context["title"] = f"Order {order.id}"
+        context["stripe_pk"] = settings.stripe_pk
+        context["order_id"] = order.id
         context["total_price"] = order.total_price
         context["order"] = {item.name: item.price
                             for item
                             in order.items.all()}
         return context
+
+
+class BuyOrderView(View):
+    def get(self, request, id: int, *args, **kwargs) -> JsonResponse:
+        order = get_object_or_404(Order, id=id)
+        session = CheckoutOrderService(order).generate_stripe_session()
+        return JsonResponse({"id": session.id})
 
 
 class BuyView(View):
