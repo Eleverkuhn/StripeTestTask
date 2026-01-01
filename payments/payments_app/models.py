@@ -1,4 +1,4 @@
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP
 
 from django.db import models
 from django.core.validators import (MinLengthValidator,
@@ -62,7 +62,9 @@ class Order(models.Model):
     def total_price(self) -> Decimal:
         total_price = sum(item.price for item in self.items.all())
         if self.discount:
-            total_price = total_price * self.discount.value / 100
+            discount = total_price * self.discount.value / 100
+            total_price -= discount
         if self.tax:
-            total_price = total_price * self.tax.value / 100
-        return total_price
+            tax = total_price * self.tax.value / 100
+            total_price += tax
+        return total_price.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
