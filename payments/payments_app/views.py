@@ -5,6 +5,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404
 from django.db.models import Model
+from django.urls import reverse
 
 from config import settings
 from payments_app.services import (CheckoutItemService,
@@ -44,6 +45,7 @@ class ItemView(BaseTemplateView):
     @override
     def _generate_context(self, context: dict, item: Item) -> dict:
         context = super()._generate_context(context)
+        context["buy_url"] = reverse("buy_item", args=[item.id])
         context["item_id"] = item.id
         context["title"] = item.name
         context["item"] = {field.verbose_name: getattr(item, field.name)
@@ -59,6 +61,7 @@ class OrderView(BaseTemplateView):
     @override
     def _generate_context(self, context: dict, order: Order) -> dict:
         context = super()._generate_context(context)
+        context["buy_url"] = reverse("buy_order", args=[order.id])
         context["order_id"] = order.id
         context["total_price"] = order.total_price
         context["order"] = {item.name: item.price
