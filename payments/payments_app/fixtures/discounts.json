@@ -1,0 +1,16 @@
+[
+  {
+    "model": "payments_app.discount",
+    "pk": 1,
+    "fields": {
+      "value": 7
+    }
+  },
+  {
+    "model": "payments_app.discount",
+    "pk": 2,
+    "fields": {
+      "value": 15
+    }
+  }
+]

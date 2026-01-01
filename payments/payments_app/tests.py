@@ -44,7 +44,7 @@ class TestItemView(TestCase, BaseTestView):
 
 
 class TestOrderView(TestCase, BaseTestView):
-    fixtures = ["items", "orders"]
+    fixtures = ["items", "discounts", "taxes", "orders"]
     url = reverse("order", kwargs={"id": 1})
     template = OrderView.template_name
 
@@ -65,5 +65,5 @@ class TestBuyItemView(TestCase, BaseTestBuyView):
 
 
 class TestBuyOrderView(TestCase, BaseTestBuyView):
-    fixtures = ["items", "orders"]
+    fixtures = ["items", "discounts", "taxes", "orders"]
     url = reverse("buy_order", kwargs={"id": 1})

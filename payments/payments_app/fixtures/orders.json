@@ -3,21 +3,26 @@
     "model": "payments_app.order",
     "pk": 1,
     "fields": {
-      "items": [1, 2, 3, 4, 5]
+      "items": [1, 2, 3, 4, 5],
+      "tax": 1,
+      "discount": 1
     }
   },
   {
     "model": "payments_app.order",
     "pk": 2,
     "fields": {
-      "items": [2, 3]
+      "items": [2, 3],
+      "tax": 1,
+      "discount": 2
     }
   },
   {
     "model": "payments_app.order",
     "pk": 3,
     "fields": {
-      "items": [1, 4, 5]
+      "items": [1, 4, 5],
+      "tax": 1
     }
   }
 ]

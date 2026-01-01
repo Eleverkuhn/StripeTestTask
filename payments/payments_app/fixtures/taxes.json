@@ -1,0 +1,9 @@
+[
+  {
+    "model": "payments_app.tax",
+    "pk": 1,
+    "fields": {
+      "value": 20
+    }
+  }
+]
