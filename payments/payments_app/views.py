@@ -4,10 +4,23 @@ from django.http import JsonResponse
 from django.views import View
 from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404
+from django.db.models import Model
 
 from config import settings
-from payments_app.services import BuyService, CheckoutOrderService
+from payments_app.services import (CheckoutItemService,
+                                   CheckoutOrderService,
+                                   BaseCheckoutService)
 from payments_app.models import Item, Order
+
+
+class BaseBuyView(View):
+    model: type[Model]
+    service: type[BaseCheckoutService]
+
+    def get(self, request, id: int, *args, **kwargs) -> JsonResponse:
+        order = get_object_or_404(self.model, id=id)
+        session = self.service(order).generate_stripe_session()
+        return JsonResponse({"id": session.id})
 
 
 class ItemView(TemplateView):
@@ -48,15 +61,11 @@ class OrderView(TemplateView):
         return context
 
 
-class BuyOrderView(View):
-    def get(self, request, id: int, *args, **kwargs) -> JsonResponse:
-        order = get_object_or_404(Order, id=id)
-        session = CheckoutOrderService(order).generate_stripe_session()
-        return JsonResponse({"id": session.id})
+class BuyOrderView(BaseBuyView):
+    model = Order
+    service = CheckoutOrderService
 
 
-class BuyView(View):
-    def get(self, request, id: int, *args, **kwargs) -> JsonResponse:
-        item = get_object_or_404(Item, id=id)
-        session = BuyService(item).generate_stripe_session()
-        return JsonResponse({"id": session.id})
+class BuyItemView(BaseBuyView):
+    model = Item
+    service = CheckoutItemService
