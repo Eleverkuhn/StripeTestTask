@@ -36,8 +36,3 @@ class BuyService:
                                     unit_amount=self.converted_price,
                                     currency="rub")
         return price
-
-
-class ItemService:
-    def get_item(self, id: int) -> Item:
-        return Item.objects.get(id=id)
