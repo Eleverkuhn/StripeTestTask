@@ -9,8 +9,10 @@ django.setup()
 
 from config import settings
 
-user = get_user_model()
 
-user.objects.create_superuser(username=settings.admin_username,
-                              email=settings.admin_email,
-                              password=settings.admin_password)
+def create_superuser() -> None:
+    user = get_user_model()
+    if not user.objces.filter(username=settings.admin_username).exists():
+        user.objects.create_superuser(username=settings.admin_username,
+                                      email=settings.admin_email,
+                                      password=settings.admin_password)
