@@ -4,7 +4,7 @@ from payments_app.models import Item, Discount, Tax, Order
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    fields = ["id", "name", "description", "price"]
+    fields = ["id", "name", "description", "price", "currency"]
     readonly_fields = ["id"]
 
 
