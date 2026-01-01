@@ -27,13 +27,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = settings.django_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-# ALLOWED_HOSTS = ["0.0.0.0", "localhost", settings.django_host]
-ALLOWED_HOSTS = [".onrender.com",]
-
-CSRF_TRUSTED_ORIGINS = ["https://*.onrender.com"]
-
+if settings.test_env == "prod":
+    DEBUG = False
+    ALLOWED_HOSTS = [".onrender.com",]
+    CSRF_TRUSTED_ORIGINS = ["https://*.onrender.com"]
+else:
+    DEBUG = True
+    ALLOWED_HOSTS = ["0.0.0.0", "localhost", settings.django_host]
 
 # Application definition
 

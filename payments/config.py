@@ -1,19 +1,17 @@
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).parent
 
-load_dotenv()
 
-
-def get_env_file() -> str:
+def get_env_file() -> str | None:
     dir = Path(__file__).parent.parent
     if os.getenv("TEST_ENV") == "docker":
         return str(dir / ".env.docker")
-    return str(dir / ".env.local")
+    elif os.getenv("TEST_ENV") == "local":
+        return str(dir / ".env.local")
 
 
 class Settings(BaseSettings):
@@ -34,7 +32,7 @@ class Settings(BaseSettings):
 
     pythonpath: str
 
-    model_config = SettingsConfigDict(env_file=None)
+    model_config = SettingsConfigDict(env_file=get_env_file())
 
 
 settings = Settings()
