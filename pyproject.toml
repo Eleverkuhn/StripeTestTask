@@ -9,6 +9,7 @@ dependencies = [
   "stripe==14.1.0",
   "psycopg[binary]==3.3.2",
   "gunicorn==23.0.0",
+  "whitenoise==6.11.0",
   "pydantic-settings==2.12.0",
-  "python-dotenv==1.2.1"
+  "python-dotenv==1.2.1",
 ]
