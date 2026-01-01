@@ -28,6 +28,9 @@ class Settings(BaseSettings):
     django_host: str
     django_port: str
     django_key: str
+    admin_username: str
+    admin_email: str
+    admin_password: str
 
     stripe_sk: str
     stripe_pk: str
