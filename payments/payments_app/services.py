@@ -98,5 +98,5 @@ class CheckoutItemService(BaseCheckoutService):
         product = stripe.Product.create(name=self.item.name)
         price = stripe.Price.create(product=product.id,
                                     unit_amount=self.converted_price,
-                                    currency="rub")
+                                    currency=self.item.currency)
         return price
