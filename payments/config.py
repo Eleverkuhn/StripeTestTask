@@ -10,7 +10,9 @@ def get_env_file() -> str | None:
     dir = Path(__file__).parent.parent
     if os.getenv("TEST_ENV") == "docker":
         return str(dir / ".env.docker")
-    elif os.getenv("TEST_ENV") == "local":
+    elif os.getenv("TEST_ENV") == "prod":
+        return None
+    else:
         return str(dir / ".env.local")
 
 
