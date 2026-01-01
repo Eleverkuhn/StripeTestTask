@@ -7,11 +7,15 @@ from django.core.validators import (MinLengthValidator,
 
 
 class Item(models.Model):
+    CURRENCY_CHOICES = [{"dollar", "USD"}, {"ruble", "RUB"}]
     name = models.CharField(max_length=80, validators=[MinLengthValidator(1)])
     description = models.CharField(max_length=100, null=True)
     price = models.DecimalField(max_digits=8,
                                 decimal_places=2,
                                 validators=[MinValueValidator(Decimal("1.00"))])
+    currency = models.CharField(choices=CURRENCY_CHOICES,
+                                validators=[MinLengthValidator(3),
+                                            MaxLengthValidator(3)])
 
     class Meta:
         db_table = "items"
