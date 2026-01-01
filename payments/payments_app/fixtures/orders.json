@@ -1,0 +1,23 @@
+[
+  {
+    "model": "payments_app.order",
+    "pk": 1,
+    "fields": {
+      "items": [1, 2, 3, 4, 5]
+    }
+  },
+  {
+    "model": "payments_app.order",
+    "pk": 2,
+    "fields": {
+      "items": [2, 3]
+    }
+  },
+  {
+    "model": "payments_app.order",
+    "pk": 3,
+    "fields": {
+      "items": [1, 4, 5]
+    }
+  }
+]
